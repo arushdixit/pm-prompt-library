@@ -1,2 +1,1 @@
-# pm-prompt-library
-Prompt library for PM
+AI toolkit for PMs

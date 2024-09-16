@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import './index.css';
+import 'tailwindcss/tailwind.css'
 
 const prompts = [
   {
