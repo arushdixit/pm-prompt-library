@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import './index.css';
-import 'tailwindcss/tailwind.css'
 
 const prompts = [
   {
@@ -156,7 +154,7 @@ const App = () => {
 
       <footer className="bg-white mt-12">
         <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-600">
-          © 2024 PrompTech PM. All rights reserved.
+          © 2024 PM Prompt Library. All rights reserved.
         </div>
       </footer>
     </div>
