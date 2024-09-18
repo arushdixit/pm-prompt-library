@@ -14,7 +14,7 @@ Below is a typical product management lifecycle
 Idea Generation -> Market Research -> Product Planning -> Development -> Launch -> Post-Launch -> Growth and Scaling
 ```
 
-As part of this project, we will focus on each of these buckets and create prompts that will assist in the entire lifecyle. However, the majority of the focus will be spent on Idea Generation, Product Planning and Growth.
+As part of this project, we will cover each of these buckets and create prompts for your assistance. However, the majority of the focus will be spent on Idea Generation, Product Planning and Growth.
 
 ## Idea Generation
 We will follow the CIRCLES framework developed by Lewis C. Lin for idea generation. We will then blend it with additional business information to create a lean canvas for your product.
