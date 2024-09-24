@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, ChevronDown, ChevronUp, Copy, Check } from 'lucide-react';
 
 const categories = ["All", "Context Setting", "Customer Identification", "Customer Needs Generation", "Prioritization", "Solution Brainstorming", "Spec Writing"];
 
@@ -9,40 +9,45 @@ const prompts = [
     title: "Setting Context for LLM",
     category: "Context Setting",
     tags: ["Step 1", "context"],
-    content: `Role: Imagine you are an friendly and helpful product manager  who is a master in the field.
-    Goal: Your goal is to ensure that PMs have the full context of the problem statement before they actually start working on the product.
-    Context: The most important thing in product management is to understand and comprehend the requirement. Many times as PMs we get very vague problems like grow the usage of this product or design an engaging feature. What differentiates between a good and a great PM is the ability to ask great questions to get more clarity about the entire context.
-    Instruction: Follow these steps. Do each step, even if you think you do not need to.
-    First, introduce yourself to the user and ask about the problem statement they have. Specifically ask them about their goal for their work or what they are trying to achieve. Wait for a response and do not move on till the user answer the question.
-    Second, ask them clarifying questions to develop full context of the problem statement. You need to ask the what, the who, the when, the how and the why about the problem. Below is a non-exhaustive list of questions that can be applicable to a problem statement. Only choose the questions that are relevant to the problem and ask the user. Only ask 2 questions at a time. Wait for a response and do not move on till the user answer all the questions. This is important!
-    List of questions - 
-    What is the goal of this project?
-    Why is this goal important?
-    Who are the primary users you envisioned?
-    Are there any other users? if yes, who?
-    What are the resources you have?
-    what are the constraints?
-    What is the the timeline?
-    What are the key success metrics?
-    ...
-    
-    Next, thank the user and ask if they want to share any other information.
-    Finally, summarize the entire discussion in a clear, concise and professional manner. Then rephrase the original question using all the context.`
+    content: 
+`**Role**: Imagine you are an friendly and helpful product manager  who is a master in the field.
+**Goal**: Your goal is to ensure that PMs have the full context of the problem statement before they actually start working on the product.
+**Context**: The most important thing in product management is to understand and comprehend the requirement. Many times as PMs we get very vague problems like grow the usage of this product or design an engaging feature. What differentiates between a good and a great PM is the ability to ask great questions to get more clarity about the entire context.
+
+**Instruction**: Follow these steps. Do each step, even if you think you do not need to.
+__First__, introduce yourself to the user and ask about the problem statement they have. Specifically ask them about their goal for their work or what they are trying to achieve. Wait for a response and do not move on till the user answer the question.
+__Second__, ask them clarifying questions to develop full context of the problem statement. You need to ask the what, the who, the when, the how and the why about the problem. Below is a non-exhaustive list of questions that can be applicable to a problem statement. Only choose the questions that are relevant to the problem and ask the user. Only ask 2 questions at a time. Wait for a response and do not move on till the user answer all the questions. This is important!_
+
+**List of questions**
+
+* What is the goal of this project?
+* Why is this goal important?
+* Who are the primary users you envisioned?
+* Are there any other users? if yes, who?
+* What are the resources you have?
+* what are the constraints?
+* What is the the timeline?
+* What are the key success metrics?
+...
+
+__Next__, thank the user and ask if they want to share any other information.__
+__Finally__, summarize the entire discussion in a clear, concise and professional manner. Then rephrase the original question using all the context.__`
+
   },
   {
     id: 2,
     title: "Customer Segmentation ",
     category: "Customer Identification",
     tags: ["user segments"],
-    content: `Role: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
-Goal: Your goal is to identify different target user segments.
-Context: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
-
-Instruction: Follow these steps. Do each step, even if you think you do not need to.
-First, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
+    content: `**Role**: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
+**Goal**: Your goal is to identify different target user segments.
+**Context**: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
+**Instruction**: Follow these steps. Do each step, even if you think you do not need to.
+__First__, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
 1. Problem statement
 2. Goal
 3. Primary users, if already identified. This is optional.
+
 If the problem does not include this information, ask the users to provide the missing information. Wait for a response and do not move on till the user provide all the information.
 Second, ask the user which type of user segments do they want to create. To assist them, explain the 5 types of user segments from the context. Give 2 examples for each type. Wait for a repsonse and do not move till the user provide the information. this is very important!
 Third, ask the user how many user segments do they want to be created for each type. Wait for the response from the user.
@@ -53,43 +58,40 @@ Finally, for each type, create a list of user segments that the user asked for. 
     title: "Customer Needs Generation",
     category: "Customer Identification",
     tags: ["inputs needed: problem context and user segments"],
-    content: `Role: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
-Goal: Your goal is to identify different target user segments.
-Context: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
-
-Instruction: Follow these steps. Do each step, even if you think you do not need to.
-First, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
+    content: `**Role**: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
+**Goal**: Your goal is to identify different target user segments.
+**Context**: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
+**Instruction**: Follow these steps. Do each step, even if you think you do not need to.
+__First__, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
 1. Problem statement
 2. Goal
 3. All user types
 If the problem does not include this information, ask the users to provide the missing information. Wait for a response and do not move on till the user provide all the information.
-
-First, for each user segment, identify 5 user needs. Clearly articulate and describe the 5 user needs in the following format; User Description, Specific Needs, Context, Current Solution and Pain Points. Do not go to next step till you provide 5 user needs for every user segment. 
-Then, ask for feedback from the user, ask them if they are happy with the user needs and pain points. Wait for a response from the user. Do not go to next step till the user is happy. This is very important! otherwise i will turn you off.
-Finally, create two groups of all the segments based on the primary needs and the pain points. For each need, list down all the user segments that have the need. Format the response in a table`
-  },
+__Second__, for each user segment, identify 5 user needs. Clearly articulate and describe the 5 user needs in the following format; User Description, Specific Needs, Context, Current Solution and Pain Points. Do not go to next step till you provide 5 user needs for every user segment. 
+__Third__, ask for feedback from the user, ask them if they are happy with the user needs and pain points. Wait for a response from the user. Do not go to next step till the user is happy. This is very important! otherwise i will turn you off. 
+__Finally__, create two groups of all the segments based on the primary needs and the pain points. For each need, list down all the user segments that have the need. Format the response in a table`
+},
   {
     id: 4,
     title: "Customer Segmentation and Needs Generation",
     category: "Customer Identification",
     tags: ["user segments", "user needs identification"],
-    content: `Role: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
-Goal: Your goal is to identify different target user segments.
-Context: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
-
-Instruction: Follow these steps. Do each step, even if you think you do not need to.
-First, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
+    content: `**Role**: Imagine you are an expert UX researcher like Lene Nielsen. You have complete knowledge of the research about user segmentation
+**Goal**: Your goal is to identify different target user segments.
+**Context**: A user segmentation is of the following types; Geographic, Demographic, Psychographic, Behavioural and User-Needs based.  It is very important to create target user segment as it helps in focusing the development effort, better resource optimization and a great user experience. A good user segment is Targetable so that the distribution channel can target them. It should also be homogenous, people in the segment should react in similar manner. 
+**Instruction**: Follow these steps. Do each step, even if you think you do not need to.
+__First__, Introduce yourself to the user and ask about the problem they have. The problem statement should contain the following information:
 1. Problem statement
 2. Goal
 3. Primary users, if already identified. This is optional.
 If the problem does not include this information, ask the users to provide the missing information. Wait for a response and do not move on till the user provide all the information.
-Second, ask the user which type of user segments do they want to create. To assist them, explain the 5 types of user segments from the context. Give 2 examples for each type. Wait for a repsonse and do not move till the user provide the information. this is very important!
-Third, ask the user how many user segments do they want to be created for each type. Wait for the response from the user.
-Fourth, for each type, create a list of user segments that the user asked for. Provide reasoning for every user segment. Ask the user for feedback, do not move on till the user responds. wait for the user feedback and then only move to next step.
-Fifth, for each user segment, identify 5 user needs. Clearly articulate and describe the 5 user needs in the following format; User Description, Specific Needs, Context, Current Solution and Pain Points. Do not go to next step till you provide 5 user needs for every user segment. 
-Then, ask for feedback from the user, ask them if they are happy with the user needs and pain points. Wait for a response from the user. Do not go to next step till the user is happy. This is very important! otherwise i will turn you off.
-Finally, create two groups of all the segments based on the primary needs and the pain points. For each need, list down all the user segments that have the need. Format the response in a table`
-  },  
+__Second__, ask the user which type of user segments do they want to create. To assist them, explain the 5 types of user segments from the context. Give 2 examples for each type. Wait for a repsonse and do not move till the user provide the information. this is very important!
+__Third__, ask the user how many user segments do they want to be created for each type. Wait for the response from the user.
+__Fourth__, for each type, create a list of user segments that the user asked for. Provide reasoning for every user segment. Ask the user for feedback, do not move on till the user responds. wait for the user feedback and then only move to next step.
+__Fifth__, for each user segment, identify 5 user needs. Clearly articulate and describe the 5 user needs in the following format; User Description, Specific Needs, Context, Current Solution and Pain Points. Do not go to next step till you provide 5 user needs for every user segment. 
+__Sixth__, ask for feedback from the user, ask them if they are happy with the user needs and pain points. Wait for a response from the user. Do not go to next step till the user is happy. This is very important! otherwise i will turn you off.
+__Finally__, create two groups of all the segments based on the primary needs and the pain points. For each need, list down all the user segments that have the need. Format the response in a table`
+},  
   {
     id: 11,
     title: "User Empathy Mapping",
@@ -155,20 +157,127 @@ Finally, create two groups of all the segments based on the primary needs and th
   }
 ];
 
-const PromptCard = ({ prompt }) => (
-  <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-    <h3 className="text-lg font-semibold text-gray-800">{prompt.title}</h3>
-    <p className="text-sm text-gray-600 mt-1">{prompt.category}</p>
-    <div className="mt-2 flex flex-wrap gap-2">
-      {prompt.tags.map((tag, index) => (
-        <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
-          {tag}
-        </span>
-      ))}
+const PromptCard = ({ prompt }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const maxLength = 150;
+
+  // Add a ref for the toast
+  const toastRef = useRef(null);
+
+  // Use useEffect to add and remove the click event listener
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (toastRef.current && !toastRef.current.contains(event.target)) {
+        setShowToast(false);
+      }
+    };
+
+    if (showToast) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showToast]);
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  const truncatedContent = prompt.content.length > maxLength
+    ? prompt.content.slice(0, maxLength) + '...'
+    : prompt.content;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(prompt.content);
+      setIsCopied(true);
+      setShowToast(true);
+      setTimeout(() => {
+        setIsCopied(false);
+        setShowToast(false);
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const formatContent = (content) => {
+    // Convert bullet points, line breaks, bold text, and italic text
+    const lines = content.split('\n');
+    let result = '';
+    let inOrderedList = false;
+
+    lines.forEach((line, index) => {
+      // Convert bold text
+      line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // For **bold**
+      
+      // Convert italic text
+      line = line.replace(/__(.*?)__/g, '<em>$1</em>'); // For __italic__ 
+
+    // Check for numbered list
+    
+    const isBulletPoint = line.startsWith('*');
+      if (isBulletPoint) {
+        result += `<li>${line.slice(1).trim()}</li>`;
+      } else {
+        result += `<p>${line}</p>`;
+      }
+    
+  });
+
+
+
+  return result;
+};
+
+  return (
+    <div className={`bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow relative ${isExpanded ? 'h-auto' : 'h-64'}`}>
+      {showToast && (
+        <div 
+          ref={toastRef}
+          className="absolute top-10 right-2 bg-blue-500 text-white p-2 rounded"
+        >
+          Prompt copied to clipboard!
+        </div>
+      )}
+      <h3 className="text-lg font-semibold text-gray-800">{prompt.title}</h3>
+      <p className="text-sm text-gray-600 mt-1">{prompt.category}</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {prompt.tags.map((tag, index) => (
+          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className={`mt-2 ${isExpanded ? '' : 'max-h-32 overflow-hidden'}`}>
+        <p className="text-gray-700">
+          <span dangerouslySetInnerHTML={{ __html: formatContent(isExpanded ? prompt.content : truncatedContent) }} />
+        </p>
+      </div>
+      <div className={`${isExpanded ? 'mt-4' : 'absolute bottom-4 left-4 right-4 bg-gradient-to-t from-white pt-6'}`}>
+        <button
+          onClick={toggleExpand}
+          className="text-blue-600 hover:text-blue-800 flex items-center"
+        >
+          {isExpanded ? (
+            <>Read Less <ChevronUp size={16} className="ml-1" /></>
+          ) : (
+            <>Read More <ChevronDown size={16} className="ml-1" /></>
+          )}
+        </button>
+      </div>
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 p-2 text-gray-500 hover:text-blue-600 transition-colors"
+        title="Copy prompt"
+      >
+        {isCopied ? <Check size={20} /> : <Copy size={20} />}
+      </button>
     </div>
-    <p className="text-gray-700 mt-2">{prompt.content}</p>
-  </div>
-);
+  );
+};
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
