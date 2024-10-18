@@ -246,7 +246,7 @@ const PromptCard = ({ prompt }) => {
       <p className="text-sm text-gray-600 mt-1">{prompt.category}</p>
       <div className="mt-2 flex flex-wrap gap-2">
         {prompt.tags.map((tag, index) => (
-          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+          <span key={index} className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">
             {tag}
           </span>
         ))}
